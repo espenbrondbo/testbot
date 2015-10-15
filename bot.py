@@ -5,6 +5,7 @@ from twisted.python import log
 
 # imports from the project 
 import bot_functions
+import url_functions
 
 class TestBot(irc.IRCClient):
     def _get_nickname(self):
@@ -19,15 +20,17 @@ class TestBot(irc.IRCClient):
         log.msg('Joined {}.'.format(channel))
 
     def privmsg(self, user, channel, message):
-        log.msg(user, channel, message)
-        if bot_functions.is_weather_command(message):
-            return_message = bot_functions.get_city_name_from_message(message)
-            if bot_functions.is_channel(channel):
-                self.msg(channel, return_message)
-            else:
-                user_name = bot_functions.get_user_name_from_message(user)
-                self.msg(user_name, return_message)
-
+		if bot_functions.is_weather_command(message):	# check if message is message command
+			return_message = bot_functions.get_city_name_from_message(message)
+			if bot_functions.is_channel(channel):
+				self.msg(channel, return_message)
+			else:
+				user_name = bot_functions.get_user_name_from_message(user)
+				self.msg(user_name, return_message)
+		elif url_functions.contains_url(message):		# check if message contains URL
+			url = url_functions.get_url(message)
+			title = url_functions.get_title(url)
+			self.msg(channel, title)
 
 class TestBotFactory(protocol.ClientFactory):
     protocol = TestBot
