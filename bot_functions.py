@@ -27,7 +27,7 @@ def get_city_name_from_message(message):
         city = info[1]
         return weather.get_weather_string(city)
     else:
-        return 'Could not find weather data for {}'.format(city)
+        return 'Could not find weather data for {}'
 
 def get_user_name_from_message(message):
     """Extract user name from a received message
