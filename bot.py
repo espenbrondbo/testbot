@@ -143,5 +143,5 @@ import config
 if __name__ == "__main__":
     log.startLogging(sys.stdout)
     reactor.connectTCP(config.bot['server'], config.bot['port'],
-            TestBotFactory(config.bot['channels'], config.bot['admins']))
+            TestBotFactory(config.bot['channels'], config.bot['admins'], nickname=config.bot['username']))
     reactor.run()
